@@ -1,0 +1,67 @@
+import pandas as pd
+df = pd.read_csv('churnCopy.csv')
+
+#pip install --user pandas
+
+print(df)
+
+    
+
+# 1. Duplicated rows in dataframe
+df.duplicated(keep=False).sum()  
+# By default, for each set of duplicated values, the first occurrence is set on False and all others on True. By using 'last', the last occurrence of each set of duplicated values is set on False and all others on True. By setting keep on False, all duplicates are True. 
+
+9
+
+#2. customerID duplicates
+df['customerID'].duplicated(keep=False).sum()
+
+9
+
+#3 Count number of missing values in each columns 
+df.isna().sum()
+
+
+#4 Count the total no. of missing values for the variable TotalCharges 
+df['TotalCharges'].isna().sum()
+
+15
+
+#5 Average monthly charge paid by a customer for the services he/she has signed up for 
+df['MonthlyCharges'].mean()
+#df.loc[:,'MonthlyCharges'].mean()
+
+62.3046370967742
+
+#6 Display the records having “1@#” under the variable Dependents
+#df['Dependents'].str.contains('1@#').sum()
+#df['Dependents'].str.contains('1@#').any()
+df[df['Dependents'].str.contains('1@#')]
+
+	
+#7 Replace null values in churn dataframe by median value or by max count class category
+srs = df.agg({'MonthlyCharges':'mean'})
+#print(srs)
+df['MonthlyCharges'] = df['MonthlyCharges'].fillna(value=srs)
+print(df['MonthlyCharges'])
+
+
+'''import numpy as np
+dft = pd.DataFrame({'user':['1','1','1','1','1','1', '2', '2', '2', '2', '2'], 
+                   'ffq':[1, 3, 2, np.nan, 3, np.nan, 3, np.nan, 2, np.nan, 3],
+                   'food-category':['fruit', 'fruit', 'vegetables', 'vegetables', 
+                                    'vegetables', 'fruit', 'fruit', 'fruit', 'vegetables', 
+                                    'vegetables', 'fruit']})'''
+
+'''srs = dft.agg({'ffq':'mean'})
+print(srs)
+#df[df['MonthlyCharges'].isnull()]
+#print(srs)
+dft['ffq'] = dft['ffq'].fillna(value=srs)'''
+
+#print(dft['ffq'])
+
+df.columns
+
+ 
+
